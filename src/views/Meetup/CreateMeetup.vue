@@ -49,6 +49,27 @@
             :rules="defaultRules"
             required
           ></v-textarea>
+          <div class="text-h4 grey--text text-center mb-4">
+            Pick a Date and Time
+          </div>
+          <v-row justify="center">
+            <v-date-picker
+              style="height: 400px"
+              class="ma-5"
+              elevation="15"
+              v-model="date"
+              :show-current="false"
+            ></v-date-picker>
+            <v-time-picker
+              format="24hr"
+              style="height: 400px"
+              class="ma-5"
+              v-model="time"
+              elevation="15"
+              color="green lighten-1"
+              header-color="primary"
+            ></v-time-picker>
+          </v-row>
           <v-btn color="success" class="mr-4" @click="validate" type="submit">
             Create Meetup
           </v-btn>
@@ -65,6 +86,8 @@ export default {
   name: "CreateMeetup",
   data: () => ({
     valid: false,
+    date: new Date().toISOString().substr(0, 10),
+    time: new Date(),
     meetup: {
       title: "",
       location: "",
@@ -73,6 +96,21 @@ export default {
     },
     defaultRules: [(v) => !!v || "This field is required"],
   }),
+  computed: {
+    submittableDateTime() {
+      const date = new Date(this.date);
+      if (typeof this.time === "string") {
+        const hours = this.time.match(/^(\d+)/)[1];
+        const minutes = this.time.match(/:(\d+)/)[1];
+        date.setHours(hours);
+        date.setMinutes(minutes);
+      } else {
+        date.setHours(this.time.getHours());
+        date.setMinutes(this.time.getMinutes());
+      }
+      return date;
+    },
+  },
   methods: {
     validate() {
       this.valid = this.$refs.form.validate();
@@ -81,7 +119,7 @@ export default {
       if (this.valid) {
         const meetupData = {
           ...this.meetup,
-          date: new Date(),
+          date: this.submittableDateTime,
         };
         this.$store.dispatch("createMeetup", meetupData);
         this.$router.push("/meetups/");

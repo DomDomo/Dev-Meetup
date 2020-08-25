@@ -9,16 +9,21 @@ export const store = new Vuex.Store({
       {
         id: "sdfjlsfjlsfj",
         title: "Meetup in New York",
-        date: "2020-08-25",
+        date: new Date(),
         imageUrl:
           "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ffm.cnbc.com%2Fapplications%2Fcnbc.com%2Fresources%2Fimg%2Feditorial%2F2017%2F04%2F12%2F104400487-Empire_state_building_nyc.1910x1000.jpg%3Fv%3D1492015557&f=1&nofb=1",
+        location: "New York",
+        description: "Coool cool place to hang",
       },
+
       {
         id: "qwertyuikjnhbf",
         title: "Meetup in Paris",
-        date: "2020-08-26",
+        date: new Date(),
         imageUrl:
           "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fi.huffpost.com%2Fgen%2F2735806%2Fimages%2Fo-PARIS-facebook.jpg&f=1&nofb=1",
+        location: "Paris",
+        description: "Chill place and fun times",
       },
     ],
     user: {

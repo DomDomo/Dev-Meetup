@@ -14,7 +14,7 @@
               </v-col>
               <v-col cols="7" sm="8" md="9">
                 <v-card-title class="text-h4">{{ meetup.title }}</v-card-title>
-                <v-card-subtitle>{{ meetup.date }}</v-card-subtitle>
+                <v-card-subtitle>{{ meetup.date | date }}</v-card-subtitle>
                 <v-card-actions>
                   <v-btn text :to="'/meetup/' + meetup.id">
                     <v-icon left>mdi-arrow-right</v-icon>View Meetup
