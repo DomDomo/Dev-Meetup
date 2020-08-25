@@ -5,12 +5,15 @@
         <v-btn large router to="/meetups" color="info">Explore Meetups</v-btn>
       </v-col>
       <v-col cols="12" sm="6" class="text-center text-sm-left">
-        <v-btn large router to="/meetup/new" color="info"
-          >Oraganize Meetups</v-btn
-        >
+        <v-btn large router to="/meetup/new" color="info">Oraganize Meetups</v-btn>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row v-if="loading" class="mt-12">
+      <v-col cols="12" class="text-center">
+        <v-progress-circular :size="70" :width="7" color="primary" indeterminate></v-progress-circular>
+      </v-col>
+    </v-row>
+    <v-row v-else>
       <v-col cols="12">
         <v-carousel style="cursor: pointer">
           <v-carousel-item
@@ -31,7 +34,7 @@
     </v-row>
     <v-row>
       <v-col cols="12" class="text-center">
-        <p>Join out awesome meetups!</p>
+        <p>Join our awesome meetups!</p>
       </v-col>
     </v-row>
   </v-container>
@@ -44,6 +47,9 @@ export default {
   computed: {
     meetups() {
       return this.$store.getters.featuredMeetups;
+    },
+    loading() {
+      return this.$store.getters.loading;
     },
   },
   methods: {

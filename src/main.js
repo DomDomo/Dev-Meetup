@@ -3,12 +3,14 @@ import App from "./App.vue";
 import * as firebase from "firebase";
 import router from "./router";
 import { store } from "./store";
-import DateFilter from "./filters/date";
 import vuetify from "./plugins/vuetify";
+import DateFilter from "./filters/date";
+import AlertCmp from "./components/Alert.vue";
 
 Vue.config.productionTip = false;
 
 Vue.filter("date", DateFilter);
+Vue.component("app-alert", AlertCmp);
 
 new Vue({
   router,
@@ -25,5 +27,12 @@ new Vue({
       messagingSenderId: "147832008441",
       appId: "1:147832008441:web:4665ba6a8bb4017c527c28",
     });
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.$store.dispatch("autoSignIn", user);
+      }
+    });
+
+    this.$store.dispatch("loadMeetups");
   },
 }).$mount("#app");

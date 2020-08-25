@@ -1,11 +1,16 @@
 <template>
   <v-container>
     <v-row>
+      <v-col cols="12" sm="6" offset-sm="3" v-if="error">
+        <app-alert @dismissed="onDismissed" :text="error.message"></app-alert>
+      </v-col>
+    </v-row>
+    <v-row>
       <v-col cols="12" sm="6" offset-sm="3">
         <v-card>
           <v-card-text>
             <v-container>
-              <v-form ref="form">
+              <v-form ref="form" @submit.prevent="onSignup">
                 <v-row>
                   <v-col cols="12">
                     <v-text-field
@@ -19,7 +24,7 @@
                     <v-text-field
                       id="password"
                       v-model="password"
-                      :rules="[rules.required, rules.min]"
+                      :rules="[rules.required]"
                       type="password"
                       name="password"
                       label="Password"
@@ -27,7 +32,7 @@
                     <v-text-field
                       id="confirm_password"
                       v-model="confirmPassword"
-                      :rules="[comparePasswords]"
+                      :rules="[rules.required, comparePasswords]"
                       type="password"
                       name="confirmPassword"
                       label="Confirm Password"
@@ -38,9 +43,9 @@
                       class="mr-4"
                       @click="validate"
                       type="submit"
-                    >
-                      Sign up
-                    </v-btn>
+                      :loading="loading"
+                      :disabled="loading"
+                    >Sign up</v-btn>
                   </v-col>
                 </v-row>
               </v-form>
@@ -56,7 +61,7 @@
 export default {
   name: "Signup",
   data: () => ({
-    valid: true,
+    valid: false,
     email: "",
     password: "",
     confirmPassword: "",
@@ -72,17 +77,38 @@ export default {
         ? "Passwords do not match"
         : true;
     },
+    user() {
+      return this.$store.getters.user;
+    },
+    error() {
+      return this.$store.getters.error;
+    },
+    loading() {
+      return this.$store.getters.loading;
+    },
+  },
+  watch: {
+    user(value) {
+      if (value !== null && value !== undefined) {
+        this.$router.push("/");
+      }
+    },
   },
   methods: {
     validate() {
       this.valid = this.$refs.form.validate();
     },
     onSignup() {
-      console.log({
-        email: this.email,
-        password: this.password,
-        conPassword: this.confirmPassword,
-      });
+      if (this.valid) {
+        this.$store.dispatch("signUserUp", {
+          email: this.email,
+          password: this.password,
+        });
+      }
+    },
+    onDismissed() {
+      console.log("Dissmessed Alert");
+      return this.$store.dispatch("clearError");
     },
   },
 };
