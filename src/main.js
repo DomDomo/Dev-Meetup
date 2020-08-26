@@ -1,6 +1,9 @@
 import Vue from "vue";
 import App from "./App.vue";
-import * as firebase from "firebase";
+
+import firebase from "firebase/app";
+import "firebase/auth";
+
 import router from "./router";
 import { store } from "./store";
 import vuetify from "./plugins/vuetify";
@@ -30,6 +33,7 @@ new Vue({
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.$store.dispatch("autoSignIn", user);
+        this.$store.dispatch("fetchUserData");
       }
     });
 
