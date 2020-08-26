@@ -19,7 +19,9 @@
             </div>
             <template v-if="userIsCreator">
               <v-spacer></v-spacer>
-              <Dialog :meetup="meetup" />
+              <DateDialog :meetup="meetup" />
+              <TimeDialog :meetup="meetup" />
+              <DetailsDialog :meetup="meetup" />
             </template>
           </v-card-title>
           <v-img :src="meetup.imageUrl" height="400"></v-img>
@@ -43,12 +45,16 @@
 </template>
 
 <script>
-import Dialog from "@/components/EditMeetupDetailsDialog.vue";
+import DetailsDialog from "@/components/EditMeetup/EditMeetupDetailsDialog.vue";
+import DateDialog from "@/components/EditMeetup/EditMeetupDateDialog.vue";
+import TimeDialog from "@/components/EditMeetup/EditMeetupTimeDialog.vue";
 export default {
   name: "Meetup",
   props: ["id"],
   components: {
-    Dialog,
+    DetailsDialog,
+    DateDialog,
+    TimeDialog,
   },
   computed: {
     meetup() {
