@@ -1,5 +1,7 @@
 # yt-devmeetup-vue
 
+This project follows [Vue.js + Vuetify + Firebase Project - DevMeetup](https://www.youtube.com/playlist?list=PL55RiY5tL51qxUbODJG9cgrsVd7ZHbPrt)
+
 ## Project setup
 ```
 npm install
